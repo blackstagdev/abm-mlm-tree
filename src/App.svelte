@@ -8,6 +8,7 @@
   let loading = true;
   let error = null;
   let search = "";
+  let expanded = false;
 
   function buildTree(data) {
     const map = {};
@@ -52,6 +53,7 @@
       if (match) results.push(match);
     }
     filteredTree = results;
+    expanded = true;
   }
 
   $: searchTree(search); // reactive to input
@@ -117,9 +119,9 @@
       bind:value={search}
       style="margin-bottom:10px; padding:5px; width:300px"
     />
-    <ul>
+    <ul style="list-style: none;">
       {#each filteredTree as root (root.id)}
-        <TreeNode node={root} />
+        <TreeNode node={root} searchExpand={expanded} />
       {/each}
       {#if filteredTree.length === 0}
         <p>No affiliates found</p>
